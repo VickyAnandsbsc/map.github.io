@@ -1,0 +1,352 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="initial-scale=1,user-scalable=no,maximum-scale=1,width=device-width">
+        <meta name="mobile-web-app-capable" content="yes">
+        <meta name="apple-mobile-web-app-capable" content="yes">
+        <link rel="stylesheet" href="css/leaflet.css">
+        <link rel="stylesheet" href="css/qgis2web.css"><link rel="stylesheet" href="css/fontawesome-all.min.css">
+        <link rel="stylesheet" href="css/filter.css">
+<link rel="stylesheet" href="css/nouislider.min.css">
+        <style>
+        html, body, #map {
+            width: 100%;
+            height: 100%;
+            padding: 0;
+            margin: 0;
+        }
+        </style>
+        <title>Punjab Administrative</title>
+    </head>
+    <body>
+        <div id="map">
+        </div>
+        <script src="js/qgis2web_expressions.js"></script>
+        <script src="js/leaflet.js"></script>
+        <script src="js/leaflet.rotatedMarker.js"></script>
+        <script src="js/leaflet.pattern.js"></script>
+        <script src="js/leaflet-hash.js"></script>
+        <script src="js/Autolinker.min.js"></script>
+        <script src="js/rbush.min.js"></script>
+        <script src="js/labelgun.min.js"></script>
+        <script src="js/labels.js"></script>
+        <script src="js/tailDT.js"></script>
+<script src="js/nouislider.min.js"></script>
+<script src="js/wNumb.js"></script>
+        <script src="data/Punjab_2023_0.js"></script>
+        <script>
+        var highlightLayer;
+        function highlightFeature(e) {
+            highlightLayer = e.target;
+
+            if (e.target.feature.geometry.type === 'LineString') {
+              highlightLayer.setStyle({
+                color: '#ffff00',
+              });
+            } else {
+              highlightLayer.setStyle({
+                fillColor: '#ffff00',
+                fillOpacity: 1
+              });
+            }
+        }
+        var map = L.map('map', {
+            zoomControl:true, maxZoom:10, minZoom:5
+        })
+        var hash = new L.Hash(map);
+        map.attributionControl.setPrefix('<a href="https://www.instagram.com/ish_putra/" target="_blank">Vicky Anand</a> &middot; <a href="" title="s"></a> &middot; <a href=""></a>');
+        var autolinker = new Autolinker({truncate: {length: 30, location: 'smart'}});
+        var bounds_group = new L.featureGroup([]);
+        function setBounds() {
+            if (bounds_group.getLayers().length) {
+                map.fitBounds(bounds_group.getBounds());
+            }
+        }
+        function pop_Punjab_2023_0(feature, layer) {
+            layer.on({
+                mouseout: function(e) {
+                    for (i in e.target._eventParents) {
+                        e.target._eventParents[i].resetStyle(e.target);
+                    }
+                },
+                mouseover: highlightFeature,
+            });
+            var popupContent = '<table>\
+                    <tr>\
+                        <th scope="row">DT_NAME_21</th>\
+                        <td>' + (feature.properties['DT_NAME_21'] !== null ? autolinker.link(feature.properties['DT_NAME_21'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Remarks'] !== null ? autolinker.link(feature.properties['Remarks'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['SHORT_DT'] !== null ? autolinker.link(feature.properties['SHORT_DT'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Shape_Leng'] !== null ? autolinker.link(feature.properties['Shape_Leng'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Shape_Area'] !== null ? autolinker.link(feature.properties['Shape_Area'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">Population</th>\
+                        <td>' + (feature.properties['Population'] !== null ? autolinker.link(feature.properties['Population'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">Sex Ratio</th>\
+                        <td>' + (feature.properties['Sex Ratio'] !== null ? autolinker.link(feature.properties['Sex Ratio'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">Density</th>\
+                        <td>' + (feature.properties['Density'] !== null ? autolinker.link(feature.properties['Density'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">Literacy</th>\
+                        <td>' + (feature.properties['Literacy'] !== null ? autolinker.link(feature.properties['Literacy'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                </table>';
+            layer.bindPopup(popupContent, {maxHeight: 400});
+        }
+
+        function style_Punjab_2023_0_0() {
+            return {
+                pane: 'pane_Punjab_2023_0',
+                opacity: 1,
+                color: 'rgba(255,1,1,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(152,125,183,1.0)',
+                interactive: true,
+            }
+        }
+        map.createPane('pane_Punjab_2023_0');
+        map.getPane('pane_Punjab_2023_0').style.zIndex = 400;
+        map.getPane('pane_Punjab_2023_0').style['mix-blend-mode'] = 'normal';
+        var layer_Punjab_2023_0 = new L.geoJson(json_Punjab_2023_0, {
+            attribution: '',
+            interactive: true,
+            dataVar: 'json_Punjab_2023_0',
+            layerName: 'layer_Punjab_2023_0',
+            pane: 'pane_Punjab_2023_0',
+            onEachFeature: pop_Punjab_2023_0,
+            style: style_Punjab_2023_0_0,
+        });
+        bounds_group.addLayer(layer_Punjab_2023_0);
+        map.addLayer(layer_Punjab_2023_0);
+            var title = new L.Control();
+            title.onAdd = function (map) {
+                this._div = L.DomUtil.create('div', 'info');
+                this.update();
+                return this._div;
+            };
+            title.update = function () {
+                this._div.innerHTML = '<h2>Punjab Administrative</h2>';
+            };
+            title.addTo(map);
+        setBounds();
+        var i = 0;
+        layer_Punjab_2023_0.eachLayer(function(layer) {
+            var context = {
+                feature: layer.feature,
+                variables: {}
+            };
+            layer.bindTooltip((layer.feature.properties['DT_NAME_21'] !== null?String('<div style="color: #000000; font-size: 12pt; font-family: \'MS Shell Dlg 2\', sans-serif;">' + layer.feature.properties['DT_NAME_21']) + '</div>':''), {permanent: true, offset: [-0, -16], className: 'css_Punjab_2023_0'});
+            labels.push(layer);
+            totalMarkers += 1;
+              layer.added = true;
+              addLabel(layer, i);
+              i++;
+        });
+        var mapDiv = document.getElementById('map');
+        var row = document.createElement('div');
+        row.className="row";
+        row.id="all";
+        row.style.height = "100%";
+        var col1 = document.createElement('div');
+        col1.className="col9";
+        col1.id = "mapWindow";
+        col1.style.height = "99%";
+        col1.style.width = "80%";
+        col1.style.display = "inline-block";
+        var col2 = document.createElement('div');
+        col2.className="col3";
+        col2.id = "menu";
+        col2.style.display = "inline-block";
+        mapDiv.parentNode.insertBefore(row, mapDiv);
+        document.getElementById("all").appendChild(col1);
+        document.getElementById("all").appendChild(col2);
+        col1.appendChild(mapDiv)
+        var Filters = {"DT_NAME_21": "str"};
+        function filterFunc() {
+          map.eachLayer(function(lyr){
+          if ("options" in lyr && "dataVar" in lyr["options"]){
+            features = this[lyr["options"]["dataVar"]].features.slice(0);
+            try{
+              for (key in Filters){
+                keyS = key.replace(/[^a-zA-Z0-9_]/g, "")
+                if (Filters[key] == "str" || Filters[key] == "bool"){
+                  var selection = [];
+                  var options = document.getElementById("sel_" + keyS).options
+                  for (var i=0; i < options.length; i++) {
+                    if (options[i].selected) selection.push(options[i].value);
+                  }
+                    try{
+                      if (key in features[0].properties){
+                        for (i = features.length - 1;
+                          i >= 0; --i){
+                          if (selection.indexOf(
+                          features[i].properties[key])<0
+                          && selection.length>0) {
+                          features.splice(i,1);
+                          }
+                        }
+                      }
+                    } catch(err){
+                  }
+                }
+                if (Filters[key] == "int"){
+                  sliderVals =  document.getElementById(
+                    "div_" + keyS).noUiSlider.get();
+                  try{
+                    if (key in features[0].properties){
+                    for (i = features.length - 1; i >= 0; --i){
+                      if (parseInt(features[i].properties[key])
+                          < sliderVals[0]
+                          || parseInt(features[i].properties[key])
+                          > sliderVals[1]){
+                            features.splice(i,1);
+                          }
+                        }
+                      }
+                    } catch(err){
+                    }
+                  }
+                if (Filters[key] == "real"){
+                  sliderVals =  document.getElementById(
+                    "div_" + keyS).noUiSlider.get();
+                  try{
+                    if (key in features[0].properties){
+                    for (i = features.length - 1; i >= 0; --i){
+                      if (features[i].properties[key]
+                          < sliderVals[0]
+                          || features[i].properties[key]
+                          > sliderVals[1]){
+                            features.splice(i,1);
+                          }
+                        }
+                      }
+                    } catch(err){
+                    }
+                  }
+                if (Filters[key] == "date"
+                  || Filters[key] == "datetime"
+                  || Filters[key] == "time"){
+                  try{
+                    if (key in features[0].properties){
+                      HTMLkey = key.replace(/[&\/\\#,+()$~%.'":*?<>{} ]/g, '');
+                      startdate = document.getElementById("dat_" +
+                        HTMLkey + "_date1").value.replace(" ", "T");
+                      enddate = document.getElementById("dat_" +
+                        HTMLkey + "_date2").value.replace(" ", "T");
+                      for (i = features.length - 1; i >= 0; --i){
+                        if (features[i].properties[key] < startdate
+                          || features[i].properties[key] > enddate){
+                          features.splice(i,1);
+                        }
+                      }
+                    }
+                  } catch(err){
+                  }
+                }
+              }
+            } catch(err){
+            }
+          this[lyr["options"]["layerName"]].clearLayers();
+          this[lyr["options"]["layerName"]].addData(features);
+        var i = 0;
+        layer_Punjab_2023_0.eachLayer(function(layer) {
+            var context = {
+                feature: layer.feature,
+                variables: {}
+            };
+            layer.bindTooltip((layer.feature.properties['DT_NAME_21'] !== null?String('<div style="color: #000000; font-size: 12pt; font-family: \'MS Shell Dlg 2\', sans-serif;">' + layer.feature.properties['DT_NAME_21']) + '</div>':''), {permanent: true, offset: [-0, -16], className: 'css_Punjab_2023_0'});
+            labels.push(layer);
+            totalMarkers += 1;
+              layer.added = true;
+              addLabel(layer, i);
+              i++;
+        });
+          }
+          })
+        }
+            document.getElementById("menu").appendChild(
+                document.createElement("div"));
+            var div_DT_NAME_21 = document.createElement('div');
+            div_DT_NAME_21.id = "div_DT_NAME_21";
+            div_DT_NAME_21.className= "filterselect";
+            document.getElementById("menu").appendChild(div_DT_NAME_21);
+            sel_DT_NAME_21 = document.createElement('select');
+            sel_DT_NAME_21.multiple = true;
+            sel_DT_NAME_21.size = 10;
+            sel_DT_NAME_21.id = "sel_DT_NAME_21";
+            var DT_NAME_21_options_str = "<option value='' unselected></option>";
+            sel_DT_NAME_21.onchange = function(){filterFunc()};
+            DT_NAME_21_options_str  += '<option value="AMRITSAR">AMRITSAR</option>';
+            DT_NAME_21_options_str  += '<option value="BARNALA">BARNALA</option>';
+            DT_NAME_21_options_str  += '<option value="BATHINDA">BATHINDA</option>';
+            DT_NAME_21_options_str  += '<option value="FARIDKOT">FARIDKOT</option>';
+            DT_NAME_21_options_str  += '<option value="FATEHGARH SAHIB">FATEHGARH SAHIB</option>';
+            DT_NAME_21_options_str  += '<option value="FAZILKA">FAZILKA</option>';
+            DT_NAME_21_options_str  += '<option value="FEROZEPUR">FEROZEPUR</option>';
+            DT_NAME_21_options_str  += '<option value="GURDASPUR">GURDASPUR</option>';
+            DT_NAME_21_options_str  += '<option value="HOSHIARPUR">HOSHIARPUR</option>';
+            DT_NAME_21_options_str  += '<option value="JALANDHAR">JALANDHAR</option>';
+            DT_NAME_21_options_str  += '<option value="KAPURTHALA">KAPURTHALA</option>';
+            DT_NAME_21_options_str  += '<option value="LUDHIANA">LUDHIANA</option>';
+            DT_NAME_21_options_str  += '<option value="MALERKOTLA">MALERKOTLA</option>';
+            DT_NAME_21_options_str  += '<option value="MANSA">MANSA</option>';
+            DT_NAME_21_options_str  += '<option value="MOGA">MOGA</option>';
+            DT_NAME_21_options_str  += '<option value="PATHANKOT">PATHANKOT</option>';
+            DT_NAME_21_options_str  += '<option value="PATIALA">PATIALA</option>';
+            DT_NAME_21_options_str  += '<option value="RUPNAGAR">RUPNAGAR</option>';
+            DT_NAME_21_options_str  += '<option value="SAHIBZADA AJIT SINGH NAGAR">SAHIBZADA AJIT SINGH NAGAR</option>';
+            DT_NAME_21_options_str  += '<option value="SANGRUR">SANGRUR</option>';
+            DT_NAME_21_options_str  += '<option value="SHAHID BHAGAT SINGH NAGAR">SHAHID BHAGAT SINGH NAGAR</option>';
+            DT_NAME_21_options_str  += '<option value="SRI MUKTSAR SAHIB">SRI MUKTSAR SAHIB</option>';
+            DT_NAME_21_options_str  += '<option value="TARN TARAN">TARN TARAN</option>';
+            sel_DT_NAME_21.innerHTML = DT_NAME_21_options_str;
+            div_DT_NAME_21.appendChild(sel_DT_NAME_21);
+            var lab_DT_NAME_21 = document.createElement('div');
+            lab_DT_NAME_21.innerHTML = 'Select Districts';
+            lab_DT_NAME_21.className = 'filterlabel';
+            div_DT_NAME_21.appendChild(lab_DT_NAME_21);
+            var reset_DT_NAME_21 = document.createElement('div');
+            reset_DT_NAME_21.innerHTML = 'Clear';
+            reset_DT_NAME_21.className = 'filterlabel';
+            reset_DT_NAME_21.onclick = function() {
+                var options = document.getElementById("sel_DT_NAME_21").options;
+                for (var i=0; i < options.length; i++) {
+                    options[i].selected = false;
+                }
+                filterFunc();
+            };
+            div_DT_NAME_21.appendChild(reset_DT_NAME_21);
+        resetLabels([layer_Punjab_2023_0]);
+        map.on("zoomend", function(){
+            resetLabels([layer_Punjab_2023_0]);
+        });
+        map.on("layeradd", function(){
+            resetLabels([layer_Punjab_2023_0]);
+        });
+        map.on("layerremove", function(){
+            resetLabels([layer_Punjab_2023_0]);
+        });
+        </script>
+    </body>
+</html>
